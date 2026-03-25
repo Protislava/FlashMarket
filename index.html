@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Retro PlayStore 2010</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+  <h1>Retro PlayStore</h1>
+  <div class="search-bar">
+    <input type="text" placeholder="Buscar apps...">
+  </div>
+</header>
+
+<!-- PANEL SECRETO SOLO PARA TI -->
+<div class="panel hidden" id="adminPanel">
+  <h2>Panel Admin</h2>
+  <input id="name" placeholder="Nombre de la app">
+  <input id="icon" placeholder="Link del icono (png)">
+  <input id="file" placeholder="Link de descarga">
+  <button onclick="addApp()">Subir App</button>
+</div>
+
+<div class="container" id="apps"></div>
+
+<footer>
+Panel admin oculto. Solo el creador puede subir apps.
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
