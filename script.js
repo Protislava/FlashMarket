@@ -1,7 +1,7 @@
 // script.js
 
 // Contraseña secreta para el panel admin
-const ADMIN_PASSWORD = "N0t_Vis1ble_R3tr0_Acc3ss_!";
+const ADMIN_PASSWORD = "LFVA2026";
 
 // Mostrar panel admin si la contraseña es correcta
 const userPassword = prompt("Clave admin (solo el creador)");
