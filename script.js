@@ -1,19 +1,21 @@
-const ADMIN_PASSWORD = "LFVA2026"; // clave admin segura
+const ADMIN_PASSWORD = "LFVA2026";
 let isAdmin = false;
+let apps = [];
 
-// Función para pedir contraseña y mostrar panel solo si es correcta
+// pedir contraseña
 function checkAdmin() {
-  const pass = prompt("Clave admin (solo el creador)");
+  const pass = prompt("Clave admin");
   if(pass === ADMIN_PASSWORD){
-    const panel = document.getElementById("adminPanel");
-    if(panel) panel.classList.remove("hidden"); // se muestra solo después de validar
+    document.getElementById("adminPanel").classList.remove("hidden");
     isAdmin = true;
   }
 }
 
-// Cargar apps y mostrar botones de eliminar solo si es admin
-function loadApps(){
-  const apps = JSON.parse(localStorage.getItem("apps") || "[]");
+// cargar apps desde apps.json
+async function loadApps(){
+  const response = await fetch("apps.json");
+  apps = await response.json();
+
   const container = document.getElementById("apps");
   container.innerHTML = "";
 
@@ -22,40 +24,46 @@ function loadApps(){
       <div class="app-card">
         <img src="${app.icon}">
         <h3>${app.name}</h3>
+
         <a href="${app.file}" target="_blank">
           <button>Instalar</button>
         </a>
+
         ${isAdmin ? `<button onclick="deleteApp(${index})">Eliminar</button>` : ""}
       </div>
     `;
   });
 }
 
-// Agregar app solo si es admin
+// agregar app (te muestra el código para copiar)
 function addApp(){
   if(!isAdmin) return;
+
   const name = document.getElementById("name").value;
   const icon = document.getElementById("icon").value;
   const file = document.getElementById("file").value;
 
-  const apps = JSON.parse(localStorage.getItem("apps") || "[]");
-  apps.push({name, icon, file});
-  localStorage.setItem("apps", JSON.stringify(apps));
+  const newApp = {
+    name,
+    icon,
+    file
+  };
 
-  loadApps();
+  alert(
+`Copia esto y pégalo en apps.json:
+
+${JSON.stringify(newApp, null, 2)},`
+  );
 }
 
-// Eliminar app solo si es admin
+// eliminar app (también manual)
 function deleteApp(index){
   if(!isAdmin) return;
-  const apps = JSON.parse(localStorage.getItem("apps") || "[]");
-  apps.splice(index, 1);
-  localStorage.setItem("apps", JSON.stringify(apps));
-  loadApps();
+
+  alert("Para borrar apps edita apps.json manualmente");
 }
 
-// Ejecutar al cargar la página
-window.onload = function() {
-  checkAdmin(); // pide clave al inicio
-  loadApps();    // carga apps pero panel admin solo visible si es admin
+window.onload = function(){
+  checkAdmin();
+  loadApps();
 };
